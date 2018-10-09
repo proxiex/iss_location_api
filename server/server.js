@@ -1,8 +1,22 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import logger from 'morgan';
+import mongoose from 'mongoose';
 import config from './config/config';
 import errorHandler from './utils/errorHandler';
+
+
+// data base connection
+mongoose.connect(config.db);
+const db = mongoose.connection;
+
+db.on('error', (err) => {
+  console.error('Connection error: ', err);
+});
+
+db.once('open', () => {
+  console.log('Database connection successful');
+});
 
 
 // create express app
