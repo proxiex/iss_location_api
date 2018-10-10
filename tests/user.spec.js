@@ -7,6 +7,7 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 const baseUrl = '/api/v1/auth';
+export let token;
 
 describe('ISS Location API ::: ', () => {
   it('should get home page', (done) => {
@@ -33,7 +34,7 @@ describe('ISS Location API ::: ', () => {
 });
 
 describe('ISS Location API ::: USER', () => {
-  describe('Signin a User', () => {
+  describe('Signup a User', () => {
     it('should not allow user signup with no email', (done) => {
       chai.request(app)
         .post(`${baseUrl}/signup`)
@@ -120,6 +121,96 @@ describe('ISS Location API ::: USER', () => {
           expect(res.status).to.equal(409);
           expect(res.body).to.haveOwnProperty('message').to.not.be.null;
           expect(res.body).to.haveOwnProperty('status').to.eql('failed');
+          done();
+        });
+    });
+  });
+  describe('Signin a User', () => {
+    it('should not let user sigin with no password', (done) => {
+      const user = {
+        email: fakeData.newUsers.email,
+      };
+      chai.request(app)
+        .post(`${baseUrl}/login`)
+        .send(user)
+        .end((err, res) => {
+          const message = {
+            password: [
+              'The password field is required.'
+            ]
+          };
+          expect(res.status).to.equal(400);
+          expect(res.body).to.haveOwnProperty('message').to.eql(message);
+          done();
+        });
+    });
+
+    it('should not let user sigin with no email', (done) => {
+      const user = {
+        password: 'fakeData.newUsers.password'
+      };
+      chai.request(app)
+        .post(`${baseUrl}/login`)
+        .send(user)
+        .end((err, res) => {
+          const message = {
+            email: [
+              'The email field is required.'
+            ]
+          };
+          expect(res.status).to.equal(400);
+          expect(res.body).to.haveOwnProperty('message').to.eql(message);
+          done();
+        });
+    });
+
+    it('should not let user sigin with wrong password', (done) => {
+      const user = {
+        email: fakeData.newUsers.email,
+        password: 'fakeData.newUsers.password'
+      };
+      chai.request(app)
+        .post(`${baseUrl}/login`)
+        .send(user)
+        .end((err, res) => {
+          const message = 'Incorrect signin credentials!';
+          expect(res.status).to.equal(400);
+          expect(res.body).to.haveOwnProperty('message').to.eql(message);
+          done();
+        });
+    });
+
+    it('should not let user sigin with wrong email or password', (done) => {
+      const user = {
+        email: 'someguys@me.com',
+        password: 'fakeData.newUsers.password'
+      };
+      chai.request(app)
+        .post(`${baseUrl}/login`)
+        .send(user)
+        .end((err, res) => {
+          const message = 'Incorrect signin credentials!';
+          expect(res.status).to.equal(400);
+          expect(res.body).to.haveOwnProperty('message').to.eql(message);
+          done();
+        });
+    });
+
+    it('should let user sigin with no errors', (done) => {
+      const user = {
+        email: fakeData.newUsers.email,
+        password: fakeData.newUsers.password
+      };
+      chai.request(app)
+        .post(`${baseUrl}/login`)
+        .send(user)
+        .end((err, res) => {
+          const message = 'Login successfull!';
+          token = res.body.token;
+          expect(res.status).to.equal(200);
+          expect(res.body).to.haveOwnProperty('message').to.eql(message);
+          expect(res.body).to.haveOwnProperty('status').to.eql('success');
+          expect(res.body).to.haveOwnProperty('token').to.not.be.null;
           done();
         });
     });

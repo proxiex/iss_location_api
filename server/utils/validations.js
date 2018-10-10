@@ -56,6 +56,44 @@ class Validate {
       return response.status(400).json({ message: errors });
     }
   }
+
+  /**
+   *
+   * @static
+   * @param {object} request
+   *
+   * @param {object} response
+   *
+   * @param {function} next
+   *
+   * @returns {object} - JSON object and status code
+   *
+   * @memberof Validate
+   */
+  static login(request, response, next) {
+    const {
+      email,
+      password
+    } = request.body;
+
+    const userData = {
+      email,
+      password
+    };
+
+    const userDataRules = {
+      email: 'required|email|string',
+      password: 'required|min:6',
+    };
+
+    const validation = new Validator(userData, userDataRules);
+    if (validation.passes()) {
+      next();
+    } else {
+      const errors = validation.errors.all();
+      return response.status(400).json({ message: errors });
+    }
+  }
 }
 
 export default Validate;
