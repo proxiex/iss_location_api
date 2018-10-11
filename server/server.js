@@ -8,7 +8,7 @@ import errorHandler from './utils/errorHandler';
 
 
 // data base connection
-mongoose.connect(config.db);
+mongoose.connect(config.db, { useNewUrlParser: true });
 const db = mongoose.connection;
 
 db.on('error', (err) => {
@@ -42,7 +42,7 @@ app.use('/api/v1', routes);
 app.use(errorHandler());
 
 app.get('/', (req, res) => res.status(200).json({
-  message: 'You are welcome to Dear Diary, please hit a valid endpoint to get started.'
+  message: 'You are welcome to ISS Location, please hit a valid endpoint to get started.'
 }));
 
 app.use('/*', (req, res) => res.status(200).json({

@@ -53,6 +53,33 @@ class IssHistoryController {
 
     return this;
   }
+
+  /**
+   *
+   *
+   * @param {*} req
+   * @param {*} res
+   * @param {*} next
+   * @returns {object} -
+   * @memberof IssHistoryController
+   */
+  viewHistory(req, res, next) {
+    const { id } = req.decoded;
+    IssHistory.find({ userId: id }).then((history) => {
+      if (history.length < 1) {
+        return res.status(200).json({
+          status: 'success',
+          message: 'You do not have any ISS location search history yet'
+        });
+      }
+      res.status(200).json({
+        status: 'success',
+        history
+      });
+    }).catch(err => next(err));
+
+    return this;
+  }
 }
 
 const issHistory = new IssHistoryController();

@@ -14,7 +14,7 @@ describe('ISS Location API ::: ', () => {
     chai.request(app)
       .get('/')
       .end((err, res) => {
-        const message = 'You are welcome to Dear Diary, please hit a valid endpoint to get started.';
+        const message = 'You are welcome to ISS Location, please hit a valid endpoint to get started.';
         expect(res.status).to.equal(200);
         expect(res.body).to.haveOwnProperty('message').to.eql(message);
         done();
