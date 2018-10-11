@@ -1,7 +1,7 @@
 import User from './user';
-import IssViewHistory from './issHistory';
+import IssHistory from './issHistory';
 
 export {
   User,
-  IssViewHistory
+  IssHistory
 };

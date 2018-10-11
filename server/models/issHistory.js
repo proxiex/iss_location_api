@@ -1,15 +1,17 @@
 import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
-const issViewHostorySchema = Schema({
+const issHostorySchema = Schema({
   userId: { type: Schema.Types.ObjectId, ref: 'User' },
-  latitude: {
-    type: String,
-    required: true,
-  },
-  longitude: {
-    type: String,
-    unique: true
+  location: {
+    latitude: {
+      type: String,
+      required: true,
+    },
+    longitude: {
+      type: String,
+      required: true,
+    }
   },
   altitude: {
     type: String
@@ -22,9 +24,11 @@ const issViewHostorySchema = Schema({
       risetime: String,
       duration: String,
     }
-  ]
+  ],
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
 });
 
-const IssViewHostory = mongoose.model('IssViewHostory', issViewHostorySchema);
+const IssHistory = mongoose.model('IssHistory', issHostorySchema);
 
-export default IssViewHostory;
+export default IssHistory;

@@ -94,6 +94,59 @@ class Validate {
       return response.status(400).json({ message: errors });
     }
   }
+
+  /**
+   *
+   * @static
+   * @param {object} request
+   *
+   * @param {object} response
+   *
+   * @param {function} next
+   *
+   * @returns {object} - JSON object and status code
+   *
+   * @memberof Validate
+   */
+  static issLocation(request, response, next) {
+    const {
+      location: {
+        lat,
+        lng
+      },
+      altitude,
+      datetime,
+      passes
+    } = request.body;
+
+    const issLocationData = {
+      location: {
+        lat,
+        lng
+      },
+      altitude,
+      datetime,
+      passes
+    };
+
+    const issLocationRules = {
+      location: {
+        lat: 'required',
+        lng: 'required'
+      },
+      altitude: 'required',
+      datetime: 'required',
+      passes: 'required|array'
+    };
+
+    const validation = new Validator(issLocationData, issLocationRules);
+    if (validation.passes()) {
+      next();
+    } else {
+      const errors = validation.errors.all();
+      return response.status(400).json({ message: errors });
+    }
+  }
 }
 
 export default Validate;
