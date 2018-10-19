@@ -15,7 +15,7 @@ const Authenticate = {
   },
 
   Verify: (req, res, next) => {
-    const token = req.body.token || req.query.token || req.headers.token;
+    const token = req.body.Authorization || req.query.Authorization || req.headers.Authorization;
     if (!token) {
       return res.status(401).send({
         message: 'Unauthorised User! Please provide a valid token'

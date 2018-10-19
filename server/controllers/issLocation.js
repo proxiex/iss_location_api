@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { IssHistory } from '../models';
 
 /**
@@ -78,6 +79,87 @@ class IssHistoryController {
       });
     }).catch(err => next(err));
 
+    return this;
+  }
+
+  /**
+   *
+   * @param {*} req
+   * @param {*} res
+   * @param {*} next
+   * @returns {any} -
+   * @memberof IssHistoryController
+   */
+  currentLocation(req, res, next) {
+    axios.get('http://api.open-notify.org/iss-now.json')
+      .then((response) => {
+        res.status(200).json({
+          data: response.data
+        });
+      })
+      .catch((error) => {
+        next(error);
+      });
+    return this;
+  }
+
+  /**
+   *
+   * @param {*} req
+   * @param {*} res
+   * @param {*} next
+   * @returns {any} -
+   * @memberof IssHistoryController
+   */
+  passtLocation(req, res, next) {
+    const { lng, lat } = req.body;
+    const latitude = parseInt(lat, 10);
+    const longitude = parseInt(lng, 10);
+
+    if (latitude < -80 || latitude > 80) {
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Invalid Latitude, should be in the range  -80 - 80 '
+      });
+    }
+
+    if (longitude < -180 || longitude > 180) {
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Invalid longitude, should be in the range  -180 - 180 '
+      });
+    }
+
+    axios.get(`http://api.open-notify.org/iss-pass.json?lat=${lat}&lon=${lng}`)
+      .then((response) => {
+        res.status(200).json({
+          data: response.data
+        });
+      })
+      .catch((error) => {
+        next(error);
+      });
+    return this;
+  }
+
+  /**
+   *
+   * @param {*} req
+   * @param {*} res
+   * @param {*} next
+   * @returns {any} -
+   * @memberof IssHistoryController
+   */
+  people(req, res, next) {
+    axios.get('http://api.open-notify.org/astros.json')
+      .then((response) => {
+        res.status(200).json({
+          data: response.data
+        });
+      })
+      .catch((error) => {
+        next(error);
+      });
     return this;
   }
 }

@@ -13,7 +13,7 @@ describe('ISS Location API ::: ISS History ', () => {
     it('should throw error if log and lat are missing', (done) => {
       chai.request(app)
         .post(`${baseUrl}`)
-        .set('token', token)
+        .set('Authorization', token)
         .send(fakeData.issHistory.noLatLng)
         .end((err, res) => {
           const message = {
@@ -33,7 +33,7 @@ describe('ISS Location API ::: ISS History ', () => {
     it('should throw error if datetime is missing', (done) => {
       chai.request(app)
         .post(`${baseUrl}`)
-        .set('token', token)
+        .set('Authorization', token)
         .send(fakeData.issHistory.noDatetime)
         .end((err, res) => {
           const message = {
@@ -50,7 +50,7 @@ describe('ISS Location API ::: ISS History ', () => {
     it('should throw error if altitude is missing', (done) => {
       chai.request(app)
         .post(`${baseUrl}`)
-        .set('token', token)
+        .set('Authorization', token)
         .send(fakeData.issHistory.noAlt)
         .end((err, res) => {
           const message = {
@@ -67,7 +67,7 @@ describe('ISS Location API ::: ISS History ', () => {
     it('should throw error if passes is missing', (done) => {
       chai.request(app)
         .post(`${baseUrl}`)
-        .set('token', token)
+        .set('Authorization', token)
         .send(fakeData.issHistory.noPasses)
         .end((err, res) => {
           const message = {
@@ -97,7 +97,7 @@ describe('ISS Location API ::: ISS History ', () => {
     it('should return a message if user has no history yet', (done) => {
       chai.request(app)
         .post(`${baseUrl}`)
-        .set('token', 'token')
+        .set('Authorization', 'Authorization')
         .send(fakeData.issHistory.valid)
         .end((err, res) => {
           const message = 'Token could not be authenticated';
@@ -111,7 +111,7 @@ describe('ISS Location API ::: ISS History ', () => {
     it('should not create another search history if it already exists', (done) => {
       chai.request(app)
         .get(`${baseUrl}`)
-        .set('token', token)
+        .set('Authorization', token)
         .send(fakeData.issHistory.valid)
         .end((err, res) => {
           const status = 'success';
@@ -127,7 +127,7 @@ describe('ISS Location API ::: ISS History ', () => {
     it('should save user iss search history successfully', (done) => {
       chai.request(app)
         .post(`${baseUrl}`)
-        .set('token', token)
+        .set('Authorization', token)
         .send(fakeData.issHistory.valid)
         .end((err, res) => {
           const message = 'History saved';
@@ -144,7 +144,7 @@ describe('ISS Location API ::: ISS History ', () => {
     it('should not create another search history if it already exists', (done) => {
       chai.request(app)
         .post(`${baseUrl}`)
-        .set('token', token)
+        .set('Authorization', token)
         .send(fakeData.issHistory.valid)
         .end((err, res) => {
           const message = 'Location already exists';
@@ -162,7 +162,7 @@ describe('ISS Location API ::: ISS History ', () => {
     it('should show list of user ISS search history', (done) => {
       chai.request(app)
         .get(`${baseUrl}`)
-        .set('token', token)
+        .set('Authorization', token)
         .send(fakeData.issHistory.valid)
         .end((err, res) => {
           const status = 'success';
