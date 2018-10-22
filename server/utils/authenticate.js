@@ -9,13 +9,13 @@ const Authenticate = {
 
   createToken: (payload) => {
     const token = jwt.sign(payload, SECRET_KEY, {
-      expiresIn: '7d' // Token expires in 7 days 
+      expiresIn: '7d' // Token expires in 7 days
     });
     return token;
   },
 
   Verify: (req, res, next) => {
-    const token = req.body.Authorization || req.query.Authorization || req.headers.Authorization;
+    const token = req.body.authorization || req.query.authorization || req.headers.authorization;
     if (!token) {
       return res.status(401).send({
         message: 'Unauthorised User! Please provide a valid token'
