@@ -9,7 +9,7 @@ const Authenticate = {
 
   createToken: (payload) => {
     const token = jwt.sign(payload, SECRET_KEY, {
-      expiresIn: '7d' // Token expires in 7 days
+      expiresIn: '7d' // Token expires in 7 days 
     });
     return token;
   },
