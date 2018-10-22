@@ -83,7 +83,7 @@ An API that shows the current location of the International Space Station. The n
       </td>
   </tr>
   <tr>
-      <td>GET</td>
+      <td>GET </td>
       <td>api/v1/iss/location</td>
       <td>Get user ISS location search history</td>
       <td>null</td>
